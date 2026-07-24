@@ -1,0 +1,160 @@
+@import "tailwindcss";
+
+@theme {
+  --color-architectural-white: #FAFAF8;
+  --color-charcoal: #1A1A1A;
+  --color-graphite: #2D2D2D;
+  --color-slate: #4A4A4A;
+  --color-dark-blue: #0F1B2D;
+  --color-steel-blue: #3B6FA0;
+  --color-steel-blue-dark: #2D5A82;
+  --color-copper: #B87333;
+  --color-copper-dark: #9A5F2A;
+  --color-platinum: #E5E4E2;
+  --color-soft-cyan: #7BC4C4;
+  --color-background: #FAFAF8;
+  --color-foreground: #1A1A1A;
+  --color-muted: #6B7280;
+  --color-border: #E5E7EB;
+  --color-accent: #3B6FA0;
+  --color-accent-hover: #2D5A82;
+  --color-card: #FFFFFF;
+  --color-card-foreground: #1A1A1A;
+  --font-sans: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-display: 'Inter Variable', 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-2xl: 24px;
+  --animate-shimmer: shimmer 2s ease-in-out infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-pulse-subtle: pulse-subtle 3s ease-in-out infinite;
+  --animate-reveal: reveal 1s ease-out forwards;
+  --animate-spin-slow: spin 8s linear infinite;
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@utility glass-dark {
+  background: rgba(15, 27, 45, 0.6);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+@utility architectural-grid {
+  background-image:
+    linear-gradient(rgba(59, 111, 160, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 111, 160, 0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+@utility text-gradient {
+  background: linear-gradient(135deg, var(--color-dark-blue), var(--color-steel-blue));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@utility text-gradient-light {
+  background: linear-gradient(135deg, #FAFAF8, #B0C4DE);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-20px); }
+}
+
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.6; }
+}
+
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@layer base {
+  html { scroll-behavior: auto; }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    font-feature-settings: "calt" 1, "liga" 1, "kern" 1;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: rgba(59, 111, 160, 0.2);
+    color: var(--color-dark-blue);
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.05;
+    text-wrap: balance;
+  }
+
+  h1 {
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    letter-spacing: -0.04em;
+  }
+  h2 {
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    letter-spacing: -0.03em;
+  }
+  h3 {
+    font-size: clamp(1.5rem, 3vw, 2.5rem);
+    letter-spacing: -0.02em;
+  }
+  h4 {
+    font-size: clamp(1.25rem, 2vw, 1.75rem);
+    letter-spacing: -0.02em;
+  }
+
+  p { line-height: 1.7; }
+
+  :focus-visible {
+    outline: 2px solid var(--color-steel-blue);
+    outline-offset: 2px;
+    border-radius: var(--radius-sm);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --color-background: #0F0F0F;
+    --color-foreground: #F5F5F0;
+    --color-card: #1A1A1A;
+    --color-card-foreground: #F5F5F0;
+    --color-border: #2D2D2D;
+  }
+}
