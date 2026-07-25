@@ -6,11 +6,13 @@ export const companyInfo = {
   founded: 2010,
   headquarters: "44 Hebenstreit Street, Ludwigsdorf, Windhoek, Namibia",
   phone: "+264 61 232 052",
+  phoneAlt: "+264 61 232 053",
+  fax: "+264 61 232 054",
   email: "admin@omkumoh.com",
   vision:
-    "To be the leading multidisciplinary engineering consultancy in Namibia, setting the standard for engineering excellence, innovation, and sustainable infrastructure development across Africa.",
+    "To be the preferred engineering based consulting firm in Namibia.",
   mission:
-    "To deliver exceptional engineering solutions through technical excellence, innovative thinking, and unwavering commitment to quality, while exercising the highest standards of skill, care, and due diligence on every project.",
+    "To build on our existing reputation as a front-runner in professional consulting engineering services by maintaining high standards through the application of appropriate technology, innovative thinking, and the exercise of the highest standards of skill, care, and due diligence on every project we undertake.",
 };
 
 export const values: Value[] = [
@@ -111,18 +113,19 @@ export const team: TeamMember[] = [
 ];
 
 export const affiliations: Affiliation[] = [
-  { name: "Engineering Council of Namibia", abbreviation: "ECN", logo: "/affiliations/ecn.svg", description: "Professional regulatory body" },
-  { name: "Association of Consulting Engineers of Namibia", abbreviation: "ACEN", logo: "/affiliations/acen.svg", description: "Industry association" },
-  { name: "Engineering Professions Association Namibia", abbreviation: "EPA", logo: "/affiliations/epa.svg", description: "Professional association" },
-  { name: "South African Institution of Civil Engineering", abbreviation: "SAICE", logo: "/affiliations/saice.svg", description: "Professional society" },
-  { name: "South African Institution of Mechanical Engineering", abbreviation: "SAIMechE", logo: "/affiliations/saimeche.svg", description: "Professional society" },
-  { name: "South African Institute of Electrical Engineers", abbreviation: "SAIEE", logo: "/affiliations/saiee.svg", description: "Professional institute" },
+  { name: "Engineering Council of Namibia", abbreviation: "ECN", logo: "/images/affiliations/ecn.png", description: "Professional regulatory body" },
+  { name: "Association of Consulting Engineers of Namibia", abbreviation: "ACEN", logo: "/images/affiliations/acen.png", description: "Industry association" },
+  { name: "Engineering Professions Association Namibia", abbreviation: "EPA", logo: "/images/affiliations/epa.png", description: "Professional association" },
+  { name: "South African Institution of Civil Engineering", abbreviation: "SAICE", logo: "/images/affiliations/saice.png", description: "Professional society" },
+  { name: "South African Institution of Mechanical Engineering", abbreviation: "SAIMechE", logo: "/images/affiliations/saimeche.png", description: "Professional society" },
+  { name: "South African Institute of Electrical Engineers", abbreviation: "SAIEE", logo: "/images/affiliations/saiee.png", description: "Professional institute" },
 ];
 
 export const offices: Office[] = [
   {
     city: "Windhoek (Head Office)",
     address: "44 Hebenstreit Street, Ludwigsdorf, Windhoek, Namibia",
+    postal: "P.O. Box 887, Windhoek, Namibia",
     phone: "+264 61 232 052",
     email: "admin@omkumoh.com",
     coordinates: [-22.5705, 17.0738],

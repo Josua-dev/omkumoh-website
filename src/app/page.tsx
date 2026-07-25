@@ -5,6 +5,7 @@ import { HeroSection } from "@/components/sections/HeroSection";
 import { EngineeringExcellence } from "@/components/sections/EngineeringExcellence";
 import { CoreServices } from "@/components/sections/CoreServices";
 import { FeaturedProjects } from "@/components/sections/FeaturedProjects";
+import { PortfolioGallery } from "@/components/sections/PortfolioGallery";
 import { Statistics } from "@/components/sections/Statistics";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
 import { TimelineSection } from "@/components/sections/TimelineSection";
@@ -26,6 +27,7 @@ export default function HomePage() {
         <EngineeringExcellence />
         <CoreServices />
         <FeaturedProjects />
+        <PortfolioGallery />
         <Statistics />
         <ProcessSection />
         <SustainabilitySection />

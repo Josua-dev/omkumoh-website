@@ -2,6 +2,7 @@
 
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container, Section } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
@@ -9,6 +10,14 @@ import { Badge } from "@/components/ui/Badge";
 import { projects, projectCategories } from "@/data/projects";
 import { MapPin, Calendar, CheckCircle, ArrowLeft } from "lucide-react";
 import { siteConfig } from "@/config/site";
+
+// Map project images for key projects
+const projectImageMap: Record<string, string> = {
+  "namcor-oil-storage": "/images/projects/special-1.jpg",
+  "okongo-stp": "/images/projects/special-2.jpg",
+  "sesfontein-water": "/images/projects/special-3.jpg",
+  "ekolola-electrification": "/images/projects/special-4.jpg",
+};
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -54,6 +63,20 @@ export default function ProjectDetailPage() {
           </motion.div>
         </Container>
       </section>
+
+      {/* Project Image Hero */}
+      {projectImageMap[project.id] && (
+        <div className="relative h-[35vh] md:h-[45vh] w-full overflow-hidden">
+          <Image
+            src={projectImageMap[project.id]}
+            alt={project.title}
+            fill
+            className="object-cover"
+            priority
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/40 to-transparent" />
+        </div>
+      )}
 
       <Section className="bg-white">
         <Container>

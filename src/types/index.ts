@@ -132,6 +132,7 @@ export interface Value {
 export interface Office {
   city: string;
   address: string;
+  postal?: string;
   phone: string;
   email: string;
   coordinates: [number, number];

@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container, Section, SectionHeader } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
@@ -83,9 +84,24 @@ export default function ServicesPage() {
                 >
                   <Link href={`/services/${service.slug}`}>
                     <Card className="group flex flex-col gap-8 p-8 transition-all hover:shadow-lg md:flex-row">
-                      <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-steel-blue/5 text-steel-blue shrink-0">
-                        {serviceIcons[service.id] || <Building size={32} />}
-                      </div>
+                      {service.image ? (
+                        <div className="relative h-32 w-full shrink-0 overflow-hidden rounded-xl md:h-36 md:w-56">
+                          <Image
+                            src={service.image}
+                            alt={service.title}
+                            fill
+                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
+                          <div className="absolute bottom-3 left-3 flex h-9 w-9 items-center justify-center rounded-full bg-white/90 text-steel-blue shadow-sm">
+                            {serviceIcons[service.id] || <Building size={18} />}
+                          </div>
+                        </div>
+                      ) : (
+                        <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-steel-blue/5 text-steel-blue shrink-0">
+                          {serviceIcons[service.id] || <Building size={32} />}
+                        </div>
+                      )}
                       <div className="flex-1">
                         <div className="flex items-start justify-between">
                           <div>

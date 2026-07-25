@@ -2,17 +2,14 @@
 
 import { useParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container, Section } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { services } from "@/data/services";
-import { ArrowUpRight, CheckCircle, Building } from "lucide-react";
+import { CheckCircle } from "lucide-react";
 import { siteConfig } from "@/config/site";
-
-const serviceIcons: Record<string, React.ReactNode> = {
-  "civil-engineering": <Building size={40} />,
-};
 
 export default function ServiceDetailPage() {
   const params = useParams();
@@ -69,6 +66,16 @@ export default function ServiceDetailPage() {
             </div>
 
             <div className="space-y-8">
+              {service.image && (
+                <div className="relative h-52 w-full overflow-hidden rounded-2xl">
+                  <Image
+                    src={service.image}
+                    alt={service.title}
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+              )}
               <Card className="p-8">
                 <h3 className="text-lg font-semibold text-charcoal mb-4">Service Details</h3>
                 <div className="space-y-4">
