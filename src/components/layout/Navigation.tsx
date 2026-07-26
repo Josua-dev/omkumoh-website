@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
@@ -14,6 +14,8 @@ export function Navigation() {
   const [navHidden, setNavHidden] = useState(false);
   const prevScrollRef = useRef(0);
   const tickingRef = useRef(false);
+  const toggleBtnRef = useRef<HTMLButtonElement>(null);
+  const mobilePanelRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
 
   useEffect(() => {
@@ -39,8 +41,47 @@ export function Navigation() {
   }, [pathname]);
 
   useEffect(() => {
-    document.body.style.overflow = isMobileOpen ? "hidden" : "";
-    return () => { document.body.style.overflow = ""; };
+    if (isMobileOpen) {
+      const prev = document.body.style.overflow;
+      document.body.style.overflow = "hidden";
+      return () => { document.body.style.overflow = prev; };
+    }
+  }, [isMobileOpen]);
+
+  useEffect(() => {
+    if (!isMobileOpen) return;
+    const toggleBtn = toggleBtnRef.current;
+    const panel = mobilePanelRef.current;
+    if (!panel) return;
+
+    const focusableEls = panel.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), textarea, input, select, [tabindex]:not([tabindex="-1"])'
+    );
+    const firstFocusable = focusableEls[0];
+    const lastFocusable = focusableEls[focusableEls.length - 1];
+
+    if (firstFocusable) firstFocusable.focus();
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key !== "Tab") return;
+      if (e.shiftKey) {
+        if (document.activeElement === firstFocusable) {
+          e.preventDefault();
+          lastFocusable?.focus();
+        }
+      } else {
+        if (document.activeElement === lastFocusable) {
+          e.preventDefault();
+          firstFocusable?.focus();
+        }
+      }
+    };
+
+    panel.addEventListener("keydown", handleKeyDown);
+    return () => {
+      panel.removeEventListener("keydown", handleKeyDown);
+      toggleBtn?.focus();
+    };
   }, [isMobileOpen]);
 
   return (
@@ -55,7 +96,7 @@ export function Navigation() {
           : "bg-transparent"
       )}
     >
-      <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
+      <nav role="navigation" aria-label="Main navigation" className="mx-auto flex h-20 max-w-7xl items-center justify-between px-6 lg:px-8">
         <Link href="/" className="relative z-10 flex items-center gap-2.5">
           <motion.div
             whileHover={{ scale: 1.05 }}
@@ -82,6 +123,7 @@ export function Navigation() {
               <Link
                 key={item.href}
                 href={item.href}
+                aria-current={isActive ? "page" : undefined}
                 className={cn(
                   "relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
                   isScrolled
@@ -119,12 +161,14 @@ export function Navigation() {
 
         {/* Mobile menu button */}
         <button
+          ref={toggleBtnRef}
           onClick={() => setIsMobileOpen(!isMobileOpen)}
           className={cn(
             "relative z-10 rounded-full p-2 transition-colors lg:hidden",
             isScrolled ? "text-charcoal hover:bg-gray-100" : "text-white hover:bg-white/10"
           )}
           aria-label={isMobileOpen ? "Close menu" : "Open menu"}
+          aria-expanded={isMobileOpen}
         >
           <motion.div
             animate={{ rotate: isMobileOpen ? 90 : 0 }}
@@ -139,11 +183,13 @@ export function Navigation() {
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
+            ref={mobilePanelRef}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[5] flex flex-col bg-dark-blue lg:hidden"
+            aria-hidden="true"
           >
             <div className="flex flex-col items-center justify-center gap-8 pt-32 pb-16">
               {mainNavigation.map((item, i) => (

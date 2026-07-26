@@ -1,6 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Input } from "@/components/ui/Input";
 import { motion } from "framer-motion";
 import { Container, Section, SectionHeader } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
@@ -9,27 +13,39 @@ import { siteConfig } from "@/config/site";
 import { fadeInUp, stagger } from "@/config/animations";
 import { Phone, Mail, MapPin, Clock, Send } from "lucide-react";
 
+const contactSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().optional(),
+  message: z.string().min(10, "Message must be at least 10 characters"),
+});
+type ContactFormData = z.infer<typeof contactSchema>;
+
 export function ContactSection() {
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    phone: "",
-    message: "",
-  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const { register, handleSubmit, formState: { errors } } = useForm<ContactFormData>({
+    resolver: zodResolver(contactSchema),
+  });
+
+  const onSubmit = async (data: ContactFormData) => {
     setIsSubmitting(true);
-    // Simulate brief sending delay for UX feedback
-    setTimeout(() => {
-      window.location.href = `mailto:${siteConfig.contact.email}?subject=Website Enquiry from ${formData.name}&body=${encodeURIComponent(
-        `Name: ${formData.name}\nEmail: ${formData.email}\nPhone: ${formData.phone}\n\nMessage:\n${formData.message}`
-      )}`;
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      const result = await res.json();
+      if (res.ok) {
+        setIsSubmitted(true);
+      }
+    } catch {
+      // Handle error
+    } finally {
       setIsSubmitting(false);
-      setIsSubmitted(true);
-    }, 400);
+    }
   };
 
   return (
@@ -51,61 +67,50 @@ export function ContactSection() {
           {/* Contact form */}
           <motion.div variants={fadeInUp}>
             <Card className="p-8 md:p-10">
-              <form onSubmit={handleSubmit} className="space-y-6">
+              <form onSubmit={handleSubmit(onSubmit)} className="space-y-6" noValidate>
                 <div className="grid gap-6 md:grid-cols-2">
-                  <div>
-                    <label htmlFor="name" className="mb-2 block text-sm font-medium text-charcoal">
-                      Full Name *
-                    </label>
-                    <input
-                      id="name"
-                      required
-                      value={formData.name}
-                      onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-charcoal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-steel-blue/30 focus:border-steel-blue transition-all"
-                      placeholder="Your name"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="mb-2 block text-sm font-medium text-charcoal">
-                      Email Address *
-                    </label>
-                    <input
-                      id="email"
-                      type="email"
-                      required
-                      value={formData.email}
-                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                      className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-charcoal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-steel-blue/30 focus:border-steel-blue transition-all"
-                      placeholder="your@email.com"
-                    />
-                  </div>
-                </div>
-                <div>
-                  <label htmlFor="phone" className="mb-2 block text-sm font-medium text-charcoal">
-                    Phone Number
-                  </label>
-                  <input
-                    id="phone"
-                    value={formData.phone}
-                    onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                    className="w-full rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-charcoal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-steel-blue/30 focus:border-steel-blue transition-all"
-                    placeholder="+264 61 000 000"
+                  <Input
+                    label="Full Name *"
+                    id="name"
+                    error={errors.name?.message}
+                    placeholder="Your name"
+                    autoComplete="name"
+                    {...register("name")}
+                  />
+                  <Input
+                    label="Email Address *"
+                    id="email"
+                    type="email"
+                    error={errors.email?.message}
+                    placeholder="your@email.com"
+                    autoComplete="email"
+                    {...register("email")}
                   />
                 </div>
+                <Input
+                  label="Phone Number"
+                  id="phone"
+                  error={errors.phone?.message}
+                  placeholder="+264 61 000 000"
+                  autoComplete="tel"
+                  {...register("phone")}
+                />
                 <div>
                   <label htmlFor="message" className="mb-2 block text-sm font-medium text-charcoal">
                     Message *
                   </label>
                   <textarea
                     id="message"
-                    required
                     rows={4}
-                    value={formData.message}
-                    onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                    className="w-full resize-none rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-charcoal placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-steel-blue/30 focus:border-steel-blue transition-all"
+                    className="w-full resize-none rounded-xl border bg-white px-4 py-3 text-sm text-charcoal placeholder:text-gray-400 transition-all focus:outline-none focus:ring-2 focus:ring-steel-blue/30 focus:border-steel-blue disabled:cursor-not-allowed disabled:opacity-50 border-gray-200"
                     placeholder="Tell us about your project..."
+                    {...register("message")}
                   />
+                  {errors.message?.message && (
+                    <p role="alert" className="mt-1 text-sm text-red-500">
+                      {errors.message.message}
+                    </p>
+                  )}
                 </div>
                 <Button type="submit" variant="primary" size="lg" className="w-full" disabled={isSubmitting}>
                   {isSubmitting ? (

@@ -12,6 +12,8 @@
 
 # testing
 /coverage
+/test-results/
+/playwright-report/
 
 # next.js
 /.next/
@@ -23,6 +25,11 @@
 # misc
 .DS_Store
 *.pem
+
+# claude code
+.claude/
+.agents/
+skills-lock.json
 
 # debug
 npm-debug.log*

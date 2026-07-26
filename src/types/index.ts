@@ -19,7 +19,7 @@ export type ServiceCategory =
   | "infrastructure-planning";
 
 export interface Service {
-  id: string;
+  id: ServiceCategory;
   title: string;
   slug: ServiceCategory;
   shortDescription: string;

@@ -7,10 +7,13 @@ import { Container, Section, SectionHeader } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { services, serviceCategories } from "@/data/services";
+import { ServiceCategory } from "@/types";
 import { fadeInUp, stagger } from "@/config/animations";
 import { ArrowUpRight, Building, Ruler, Droplets, Route, Sun, Cog, Zap, Clipboard, Compass, Briefcase } from "lucide-react";
 
-const serviceIcons: Record<string, React.ReactNode> = {
+type CategoryValue = "all" | "civil-structural" | "mechanical-electrical" | "planning-advisory";
+
+const serviceIcons: Record<ServiceCategory, React.ReactNode> = {
   "civil-engineering": <Building size={24} />,
   "structural-engineering": <Ruler size={24} />,
   "water-engineering": <Droplets size={24} />,
@@ -23,7 +26,7 @@ const serviceIcons: Record<string, React.ReactNode> = {
   "transaction-advisory": <Briefcase size={24} />,
 };
 
-const categoryMap: Record<string, string[]> = {
+const categoryMap: Record<CategoryValue, ServiceCategory[]> = {
   "all": services.map(s => s.id),
   "civil-structural": ["civil-engineering", "structural-engineering", "water-engineering", "transportation-engineering"],
   "mechanical-electrical": ["mechanical-engineering", "electrical-engineering", "renewable-energy"],
@@ -31,7 +34,7 @@ const categoryMap: Record<string, string[]> = {
 };
 
 export function CoreServices() {
-  const [activeCategory, setActiveCategory] = useState("all");
+  const [activeCategory, setActiveCategory] = useState<CategoryValue>("all");
 
   const filteredServices = services.filter((s) =>
     categoryMap[activeCategory]?.includes(s.id)
@@ -47,11 +50,15 @@ export function CoreServices() {
         />
 
         {/* Category filter */}
-        <div className="mt-12 flex flex-wrap justify-center gap-2">
+        <h2 className="sr-only">Filter by service category</h2>
+        <div className="mt-12 flex flex-wrap justify-center gap-2" role="tablist">
           {serviceCategories.map((cat) => (
             <button
               key={cat.value}
-              onClick={() => setActiveCategory(cat.value)}
+              role="tab"
+              aria-selected={activeCategory === cat.value}
+              aria-pressed={activeCategory === cat.value}
+              onClick={() => setActiveCategory(cat.value as CategoryValue)}
               className={`rounded-full px-5 py-2 text-sm font-medium transition-all ${
                 activeCategory === cat.value
                   ? "bg-dark-blue text-white"

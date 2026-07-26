@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Container, Section, SectionHeader } from "@/components/ui/Container";
@@ -55,15 +56,26 @@ export function FeaturedProjects() {
               >
                 <Link href={`/projects/${project.id}`}>
                   <div className="group relative overflow-hidden rounded-2xl border border-gray-100 bg-white transition-all hover:shadow-xl hover:-translate-y-1">
-                    <div className="aspect-[16/10] bg-gradient-to-br from-gray-50 to-gray-100 flex items-center justify-center overflow-hidden">
-                      <div className="text-center p-6">
-                        <Badge variant={project.status === "completed" ? "default" : "subtle"} className={project.status === "in-progress" ? "text-copper border-copper/30 bg-copper/5" : ""}>
-                          {project.status === "completed" ? "Completed" : "In Progress"}
-                        </Badge>
-                        <Badge className="mt-2" variant="outline">
-                          {projectCategories.find(c => c.value === project.category)?.label || project.category}
-                        </Badge>
+                    <div className="aspect-[16/10] relative overflow-hidden bg-gradient-to-br from-gray-50 to-gray-100">
+                      <Image
+                        src={project.images?.[0] || "/images/projects/special-1.jpg"}
+                        alt={`${project.title} project`}
+                        fill
+                        className="object-cover transition-transform duration-500 group-hover:scale-105"
+                        sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                        loading="lazy"
+                      />
+                      <div className="absolute inset-0 flex items-center justify-center p-6">
+                        <div className="text-center">
+                          <Badge variant={project.status === "completed" ? "default" : "subtle"} className={project.status === "in-progress" ? "text-copper border-copper/30 bg-copper/5" : ""}>
+                            {project.status === "completed" ? "Completed" : "In Progress"}
+                          </Badge>
+                          <Badge className="mt-2" variant="outline">
+                            {projectCategories.find(c => c.value === project.category)?.label || project.category}
+                          </Badge>
+                        </div>
                       </div>
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
                     </div>
                     <div className="p-6">
                       <div className="flex items-center gap-2 text-xs text-slate mb-2">

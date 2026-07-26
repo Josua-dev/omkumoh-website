@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { motion } from "framer-motion";
-import { Phone, Mail, MapPin, ArrowUp, Globe, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, ArrowUp, Globe } from "lucide-react";
 import { siteConfig } from "@/config/site";
 import { mainNavigation } from "@/data/navigation";
 import { services } from "@/data/services";
@@ -19,7 +19,7 @@ export function Footer() {
   };
 
   return (
-    <footer className="relative bg-dark-blue text-white">
+    <footer role="contentinfo" className="relative bg-dark-blue text-white">
       <div className="mx-auto max-w-7xl px-6 py-20 lg:px-8">
         <div className="grid gap-12 lg:grid-cols-4">
           <div className="lg:col-span-1">
@@ -34,15 +34,46 @@ export function Footer() {
               high-quality infrastructure solutions since 2010.
             </p>
             <div className="mt-6 flex gap-3">
-              {["in", "X", "fb", "ig"].map((label, i) => (
-                <a
-                  key={i}
-                  href="#"
-                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-gray-400 transition-all hover:bg-copper hover:text-white hover:shadow-lg hover:shadow-copper/20"
-                >
-                  <ExternalLink size={14} />
-                </a>
-              ))}
+              <a
+                href="https://linkedin.com/company/omkumoh"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="LinkedIn"
+                title="LinkedIn"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-gray-400 transition-all hover:bg-copper hover:text-white hover:shadow-lg hover:shadow-copper/20"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+              </a>
+              <a
+                href="https://twitter.com/omkumoh"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="X (Twitter)"
+                title="X (Twitter)"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-gray-400 transition-all hover:bg-copper hover:text-white hover:shadow-lg hover:shadow-copper/20"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768M17.232 4.768l-6.768 6.768"/></svg>
+              </a>
+              <a
+                href="https://facebook.com/omkumoh"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Facebook"
+                title="Facebook"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-gray-400 transition-all hover:bg-copper hover:text-white hover:shadow-lg hover:shadow-copper/20"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+              </a>
+              <a
+                href="https://instagram.com/omkumoh"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram"
+                title="Instagram"
+                className="flex h-9 w-9 items-center justify-center rounded-full bg-white/5 text-gray-400 transition-all hover:bg-copper hover:text-white hover:shadow-lg hover:shadow-copper/20"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect width="20" height="20" x="2" y="2" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/></svg>
+              </a>
             </div>
           </div>
 
@@ -116,7 +147,7 @@ export function Footer() {
             <p className="text-xs text-gray-500">
               © {new Date().getFullYear()} {siteConfig.name}. All rights reserved.
             </p>
-            <div className="flex gap-4">
+            <div className="flex gap-4" aria-label="Professional affiliations">
               {["ECN", "ACEN", "EPA", "SAICE", "SAIMechE", "SAIEE"].map((aff) => (
                 <span key={aff} className="rounded bg-white/5 px-2.5 py-1 text-[10px] font-medium text-gray-400">
                   {aff}
@@ -129,6 +160,7 @@ export function Footer() {
 
       <motion.button
         onClick={scrollToTop}
+        aria-label="Scroll to top"
         whileHover={{ scale: 1.1 }}
         whileTap={{ scale: 0.95 }}
         className="absolute bottom-8 right-8 flex h-10 w-10 items-center justify-center rounded-full bg-white/10 text-white backdrop-blur-sm transition-colors hover:bg-steel-blue"

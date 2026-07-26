@@ -1,6 +1,5 @@
-"use client";
-
-import { motion } from "framer-motion";
+import type { Metadata } from "next";
+import { siteConfig } from "@/config/site";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { EngineeringExcellence } from "@/components/sections/EngineeringExcellence";
 import { CoreServices } from "@/components/sections/CoreServices";
@@ -15,7 +14,12 @@ import { LeadershipSection } from "@/components/sections/LeadershipSection";
 import { ClientLogosSection } from "@/components/sections/ClientLogosSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
-export default function HomePage() {
+export const metadata: Metadata = {
+  title: siteConfig.name,
+  description: siteConfig.description,
+};
+
+export default async function HomePage() {
   return (
     <div>
       {/* ── Cinematic hero: 300vh with sticky 3D canvas ── */}

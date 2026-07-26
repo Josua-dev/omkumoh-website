@@ -17,8 +17,14 @@ export function HeroSection({ className }: HeroSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
 
+  const prefersReducedMotion =
+    typeof window !== "undefined"
+      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
+      : false;
+
   // ── GSAP parallax on scroll ──
   useEffect(() => {
+    if (prefersReducedMotion) return;
     const section = sectionRef.current;
     const bg = bgRef.current;
     if (!section || !bg) return;
@@ -40,7 +46,7 @@ export function HeroSection({ className }: HeroSectionProps) {
     }, section);
 
     return () => ctx.revert();
-  }, []);
+  }, [prefersReducedMotion]);
 
   // ── Framer Motion scroll-driven UI fade ──
   const { scrollYProgress } = useScroll({
@@ -61,19 +67,22 @@ export function HeroSection({ className }: HeroSectionProps) {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: 0.18,
-        delayChildren: 0.4,
+        staggerChildren: prefersReducedMotion ? 0 : 0.18,
+        delayChildren: prefersReducedMotion ? 0 : 0.4,
       },
     },
   };
 
   const fadeUp = {
-    hidden: { opacity: 0, y: 35 },
+    hidden: {
+      opacity: prefersReducedMotion ? 1 : 0,
+      y: prefersReducedMotion ? 0 : 35,
+    },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: 0.9,
+        duration: prefersReducedMotion ? 0 : 0.9,
         ease: [0.25, 0.1, 0.25, 1] as const,
       },
     },
@@ -85,7 +94,7 @@ export function HeroSection({ className }: HeroSectionProps) {
       className={cn("relative h-screen overflow-hidden bg-dark-blue", className)}
     >
       {/* ── Photographic Background ── */}
-      <div className="absolute inset-0">
+      <div aria-hidden="true" className="absolute inset-0">
         {/* Base dark layer for depth */}
         <div className="absolute inset-0 z-[1] bg-dark-blue/10" />
 
@@ -132,7 +141,7 @@ export function HeroSection({ className }: HeroSectionProps) {
           {/* Eyebrow */}
           <motion.span
             variants={fadeUp}
-            className="mb-5 block text-[11px] font-semibold uppercase tracking-[0.3em] text-white/40"
+            className="mb-5 block text-[11px] font-semibold uppercase tracking-[0.3em] text-white/70"
           >
             Multidisciplinary Engineering Consultancy
           </motion.span>
@@ -152,7 +161,7 @@ export function HeroSection({ className }: HeroSectionProps) {
           {/* Description */}
           <motion.p
             variants={fadeUp}
-            className="mt-6 max-w-lg text-sm leading-relaxed tracking-wide text-white/40 md:text-base"
+            className="mt-6 max-w-lg text-sm leading-relaxed tracking-wide text-white/70 md:text-base"
           >
             A multidisciplinary engineering firm delivering iconic infrastructure
             across Namibia — from concept to completion.
@@ -183,7 +192,7 @@ export function HeroSection({ className }: HeroSectionProps) {
         className="absolute bottom-10 left-1/2 z-10 -translate-x-1/2"
       >
         <div className="flex flex-col items-center gap-3">
-          <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/30">
+          <span className="text-[10px] font-medium uppercase tracking-[0.25em] text-white/50">
             Scroll to explore
           </span>
           <div className="relative h-10 w-[1px] overflow-hidden bg-white/10">

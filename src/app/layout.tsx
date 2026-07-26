@@ -1,11 +1,10 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { Navigation } from "@/components/layout/Navigation";
-import { Footer } from "@/components/layout/Footer";
-import { ScrollProgress } from "@/components/ui/ScrollProgress";
-import { LenisProvider } from "@/components/layout/LenisProvider";
+import { SkipNav } from "@/components/layout/SkipNav";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { siteConfig } from "@/config/site";
+import ClientLayoutWrapper from "@/components/layout/ClientLayoutWrapper";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -45,6 +44,10 @@ export const metadata: Metadata = {
     description: siteConfig.description,
   },
   robots: { index: true, follow: true },
+  manifest: "/manifest.json",
+  other: {
+    "theme-color": "#0F1B2D",
+  },
 };
 
 export default function RootLayout({
@@ -55,12 +58,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${inter.variable} h-full`}>
       <body className="min-h-full bg-background font-sans text-foreground antialiased">
-        <LenisProvider>
-          <ScrollProgress />
-          <Navigation />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </LenisProvider>
+        <SkipNav />
+        <ClientLayoutWrapper>{children}</ClientLayoutWrapper>
+        <JsonLd />
       </body>
     </html>
   );
