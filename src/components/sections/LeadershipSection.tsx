@@ -27,8 +27,19 @@ export function LeadershipSection() {
           {team.map((member) => (
             <motion.div key={member.name} variants={fadeInUp}>
               <Card className="group h-full p-8 text-center transition-all hover:shadow-lg">
-                <div className="mx-auto mb-5 flex h-24 w-24 items-center justify-center rounded-full bg-gradient-to-br from-steel-blue/10 to-steel-blue/5 text-2xl font-bold text-steel-blue">
-                  {member.name.split(" ").map(n => n[0]).join("")}
+                <div className="mx-auto mb-5 h-24 w-24 overflow-hidden rounded-full border-2 border-steel-blue/10">
+                  {member.image ? (
+                    <img
+                      src={member.image}
+                      alt={member.name}
+                      className="h-full w-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <div className="flex h-full w-full items-center justify-center bg-gradient-to-br from-steel-blue/10 to-steel-blue/5 text-2xl font-bold text-steel-blue">
+                      {member.name.split(" ").map(n => n[0]).join("")}
+                    </div>
+                  )}
                 </div>
                 <h3 className="text-lg font-semibold text-charcoal">{member.name}</h3>
                 <p className="text-sm font-medium text-steel-blue">{member.role}</p>
