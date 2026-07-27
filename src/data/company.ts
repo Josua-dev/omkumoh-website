@@ -119,12 +119,12 @@ export const team: TeamMember[] = [
 ];
 
 export const affiliations: Affiliation[] = [
-  { name: "Engineering Council of Namibia", abbreviation: "ECN", logo: "/images/affiliations/ecn.png", description: "Professional regulatory body" },
-  { name: "Association of Consulting Engineers of Namibia", abbreviation: "ACEN", logo: "/images/affiliations/acen.png", description: "Industry association" },
-  { name: "Engineering Professions Association Namibia", abbreviation: "EPA", logo: "/images/affiliations/epa.png", description: "Professional association" },
-  { name: "South African Institution of Civil Engineering", abbreviation: "SAICE", logo: "/images/affiliations/saice.png", description: "Professional society" },
-  { name: "South African Institution of Mechanical Engineering", abbreviation: "SAIMechE", logo: "/images/affiliations/saimeche.png", description: "Professional society" },
-  { name: "South African Institute of Electrical Engineers", abbreviation: "SAIEE", logo: "/images/affiliations/saiee.png", description: "Professional institute" },
+  { name: "Engineering Council of Namibia", abbreviation: "ECN", logo: "/images/affiliations/ecn.webp", description: "Professional regulatory body" },
+  { name: "Association of Consulting Engineers of Namibia", abbreviation: "ACEN", logo: "/images/affiliations/acen.webp", description: "Industry association" },
+  { name: "Engineering Professions Association Namibia", abbreviation: "EPA", logo: "/images/affiliations/epa.webp", description: "Professional association" },
+  { name: "South African Institution of Civil Engineering", abbreviation: "SAICE", logo: "/images/affiliations/saice.webp", description: "Professional society" },
+  { name: "South African Institution of Mechanical Engineering", abbreviation: "SAIMechE", logo: "/images/affiliations/saimeche.webp", description: "Professional society" },
+  { name: "South African Institute of Electrical Engineers", abbreviation: "SAIEE", logo: "/images/affiliations/saiee.webp", description: "Professional institute" },
 ];
 
 export const offices: Office[] = [

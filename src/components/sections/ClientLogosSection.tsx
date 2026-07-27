@@ -5,12 +5,12 @@ import { Container, Section } from "@/components/ui/Container";
 import Image from "next/image";
 
 const affiliations = [
-  { name: "Engineering Council of Namibia", abbr: "ECN", image: "/images/affiliations/ecn.png" },
-  { name: "Association of Consulting Engineers of Namibia", abbr: "ACEN", image: "/images/affiliations/acen.png" },
-  { name: "Engineering Professions Association Namibia", abbr: "EPA", image: "/images/affiliations/epa.png" },
-  { name: "South African Institution of Civil Engineering", abbr: "SAICE", image: "/images/affiliations/saice.png" },
-  { name: "South African Institution of Mechanical Engineering", abbr: "SAIMechE", image: "/images/affiliations/saimeche.png" },
-  { name: "South African Institute of Electrical Engineers", abbr: "SAIEE", image: "/images/affiliations/saiee.png" },
+  { name: "Engineering Council of Namibia", abbr: "ECN", image: "/images/affiliations/ecn.webp" },
+  { name: "Association of Consulting Engineers of Namibia", abbr: "ACEN", image: "/images/affiliations/acen.webp" },
+  { name: "Engineering Professions Association Namibia", abbr: "EPA", image: "/images/affiliations/epa.webp" },
+  { name: "South African Institution of Civil Engineering", abbr: "SAICE", image: "/images/affiliations/saice.webp" },
+  { name: "South African Institution of Mechanical Engineering", abbr: "SAIMechE", image: "/images/affiliations/saimeche.webp" },
+  { name: "South African Institute of Electrical Engineers", abbr: "SAIEE", image: "/images/affiliations/saiee.webp" },
 ];
 
 export function ClientLogosSection() {

@@ -10,7 +10,7 @@ export const services: Service[] = [
     description:
       "Our civil engineering division delivers a full spectrum of services covering road engineering, municipal services, and water engineering. We undertake projects ranging from regional road upgrades and municipal infrastructure to bulk water supply and wastewater treatment systems. Our team has completed projects across all 14 regions of Namibia, including arterial roads, residential streets, stormwater management systems, water storage reservoirs, and sewerage treatment facilities. We are committed to providing cost-effective, practical engineering solutions that meet the highest standards of quality and environmental compliance.",
     icon: "building",
-    image: "/images/services/civil-engineering.png",
+    image: "/images/services/civil-engineering.webp",
     features: [
       "Road Engineering: Feasibility studies and traffic analysis",
       "Road Engineering: Geometric design and alignment optimization",
@@ -40,7 +40,7 @@ export const services: Service[] = [
     description:
       "Our structural engineering team brings extensive experience in the design of reinforced concrete, structural steel, pre-stressed concrete, masonry, and timber structures. We specialize in retaining structures, structural steel and concrete buildings, reservoirs and pre-stressed concrete, bridges, and high-rise buildings. We deliver innovative, cost-effective structural solutions for buildings of all scales — from healthcare facilities and government offices to commercial developments and industrial structures. Every design is optimized for safety, durability, and constructability in compliance with Namibian and international standards.",
     icon: "ruler",
-    image: "/images/services/structural-engineering.png",
+    image: "/images/services/structural-engineering.webp",
     features: [
       "Retaining structures design and analysis",
       "Structural steel design and connection detailing",
@@ -65,7 +65,7 @@ export const services: Service[] = [
     description:
       "We provide comprehensive water engineering services addressing Namibia's unique water challenges. Our expertise spans bulk water supply networks, storage reservoirs, wastewater treatment, borehole development, booster pump stations, elevated water towers, and water master planning. We are committed to delivering sustainable water solutions that ensure reliable access to clean water for communities, industry, and agriculture across Namibia's diverse climatic regions.",
     icon: "droplets",
-    image: "/images/services/civil-engineering.png",
+    image: "/images/services/civil-engineering.webp",
     features: [
       "Water storage reservoirs and dam design",
       "Wastewater treatment facility design",
@@ -88,7 +88,7 @@ export const services: Service[] = [
     description:
       "Our transportation engineering division provides a comprehensive service covering feasibility studies, geometric design, pavement rehabilitation, drainage design, and construction supervision for roads and highways. We have delivered projects ranging from rural gravel-to-bitumen upgrades such as the DR3639 Oshikango-Ondobe road and the DR3507 Bukalo-Ngoma road, to municipal road networks. Our services include route determination, material investigation, road safety audits, and contract documentation.",
     icon: "route",
-    image: "/images/services/civil-engineering.png",
+    image: "/images/services/civil-engineering.webp",
     features: [
       "Feasibility studies and traffic analysis",
       "Geometric design and alignment optimization",
@@ -113,7 +113,7 @@ export const services: Service[] = [
     description:
       "We deliver end-to-end renewable energy solutions tailored to Namibia's abundant solar resources. Our team has designed and supervised the installation of solar photovoltaic systems for major institutions such as the Bank of Namibia, reducing carbon footprints and energy costs. We provide energy audits, feasibility studies, system design, procurement support, and construction supervision for renewable energy projects. Our expertise covers solar systems (off-grid and grid-tied), energy audits and power demand analysis, ensuring energy resilience for both public and private sector clients.",
     icon: "sun",
-    image: "/images/services/electrical-engineering.png",
+    image: "/images/services/electrical-engineering.webp",
     features: [
       "Solar photovoltaic system design and installation supervision",
       "Grid-tied and off-grid renewable energy systems",
@@ -140,7 +140,7 @@ export const services: Service[] = [
     description:
       "Our mechanical engineering team provides a complete range of design services covering wet services design, lifts and escalators, piping systems, kitchen equipment design, medical gas systems (including compressed air and LPG), specialist equipment sizing, and fire protection systems (sprinkler, water, and foam). We have extensive experience designing mechanical systems for healthcare facilities, government buildings, commercial developments, and industrial projects across Namibia, ensuring optimal indoor comfort, safety, and energy efficiency.",
     icon: "cog",
-    image: "/images/services/mechanical-engineering.png",
+    image: "/images/services/mechanical-engineering.webp",
     features: [
       "Wet services design (plumbing and drainage)",
       "Lifts and escalator system design and coordination",
@@ -165,7 +165,7 @@ export const services: Service[] = [
     description:
       "Our electrical engineering division delivers innovative electrical design solutions across building and reticulations, municipal services, and renewable energy. We specialize in building electrical reticulations, data and telecommunication systems, fire detection, access control and CCTV, earthing and lightning protection, UPS and generator standby systems, PA and nurse call systems. For municipal services we design MV/LV reticulation, streetlights and high masts, distribution centers, and commercial or industrial reticulations. Our renewable energy expertise encompasses solar systems (off-grid and grid-tied) and energy audits and power demand analysis.",
     icon: "zap",
-    image: "/images/services/electrical-engineering.png",
+    image: "/images/services/electrical-engineering.webp",
     features: [
       "Building Electrical Reticulations",
       "Data and telephone infrastructure",
