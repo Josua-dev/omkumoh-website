@@ -7,8 +7,8 @@ import { Reveal } from "@/components/animations/Reveal";
 import { LeadershipSection } from "@/components/sections/LeadershipSection";
 import { TimelineSection } from "@/components/sections/TimelineSection";
 import { ClientLogosSection } from "@/components/sections/ClientLogosSection";
-import { companyInfo, values } from "@/data/company";
-import { Building, Target, Eye, Award, Shield, Lightbulb, Leaf, Handshake, Compass } from "lucide-react";
+import { companyInfo, values, stats } from "@/data/company";
+import { Building, Target, Eye, Award, Shield, Lightbulb, Leaf, Handshake, Compass, Search, FileText, PenTool, FileCheck, HardHat, CheckCircle, Activity, Wrench } from "lucide-react";
 
 const iconMap: Record<string, React.ReactNode> = {
   trophy: <Award size={24} />,
@@ -18,6 +18,17 @@ const iconMap: Record<string, React.ReactNode> = {
   handshake: <Handshake size={24} />,
   building: <Building size={24} />,
 };
+
+const processSteps = [
+  { icon: <Search size={20} />, title: "Planning", description: "Comprehensive project planning and stakeholder identification." },
+  { icon: <FileText size={20} />, title: "Feasibility", description: "Detailed feasibility studies assessing technical, economic, and environmental viability." },
+  { icon: <PenTool size={20} />, title: "Design", description: "Innovative engineering design using cutting-edge BIM and analysis software." },
+  { icon: <FileCheck size={20} />, title: "Approvals", description: "Regulatory approvals and environmental compliance documentation." },
+  { icon: <HardHat size={20} />, title: "Construction", description: "Construction supervision ensuring quality, safety, and adherence to specifications." },
+  { icon: <CheckCircle size={20} />, title: "Quality Assurance", description: "Rigorous QA/QC inspections and testing throughout construction." },
+  { icon: <Activity size={20} />, title: "Completion", description: "Project handover with comprehensive documentation and close-out reports." },
+  { icon: <Wrench size={20} />, title: "Maintenance", description: "Ongoing maintenance support and facility management advisory services." },
+];
 
 export default function AboutPage() {
   return (
@@ -85,6 +96,57 @@ export default function AboutPage() {
       </Section>
 
       <ClientLogosSection />
+
+      {/* Stats */}
+      <Section className="bg-dark-blue">
+        <Container>
+          <div className="grid gap-8 md:grid-cols-4">
+            {stats.map((s) => (
+              <div key={s.label} className="text-center">
+                <div className="text-4xl font-bold text-white md:text-5xl">
+                  {s.value}{s.suffix}
+                </div>
+                <div className="mt-2 text-sm font-medium text-gray-400">{s.label}</div>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </Section>
+
+      {/* How We Work */}
+      <Section className="bg-gray-50">
+        <Container>
+          <SectionHeader subtitle="Our Methodology" title="How We Deliver" description="A proven 8-stage process that ensures every project meets the highest standards of quality and safety." />
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.2 }}
+            className="mt-16 grid gap-6 md:grid-cols-2 lg:grid-cols-4"
+          >
+            {processSteps.map((step, i) => (
+              <motion.div
+                key={step.title}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.05 }}
+              >
+                <Card className="group h-full p-6 text-center transition-all hover:shadow-lg hover:border-copper/20 border border-transparent">
+                  <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-xl bg-copper/5 text-copper transition-all group-hover:bg-copper group-hover:text-white">
+                    {step.icon}
+                  </div>
+                  <div className="mb-1 text-[10px] font-bold uppercase tracking-widest text-copper">
+                    Step {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <h3 className="text-base font-semibold text-charcoal">{step.title}</h3>
+                  <p className="mt-1.5 text-xs leading-relaxed text-slate">{step.description}</p>
+                </Card>
+              </motion.div>
+            ))}
+          </motion.div>
+        </Container>
+      </Section>
+
       <LeadershipSection />
       <TimelineSection />
     </motion.div>

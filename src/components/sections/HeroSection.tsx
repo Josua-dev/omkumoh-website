@@ -1,13 +1,10 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, useScroll, useTransform } from "framer-motion";
-import gsap from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { cn } from "@/lib/utils";
-
-gsap.registerPlugin(ScrollTrigger);
 
 interface HeroSectionProps {
   className?: string;
@@ -17,43 +14,14 @@ export function HeroSection({ className }: HeroSectionProps) {
   const sectionRef = useRef<HTMLDivElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
 
-  const prefersReducedMotion =
-    typeof window !== "undefined"
-      ? window.matchMedia("(prefers-reduced-motion: reduce)").matches
-      : false;
-
-  // ── GSAP parallax on scroll ──
-  useEffect(() => {
-    if (prefersReducedMotion) return;
-    const section = sectionRef.current;
-    const bg = bgRef.current;
-    if (!section || !bg) return;
-
-    const ctx = gsap.context(() => {
-      ScrollTrigger.create({
-        trigger: section,
-        start: "top top",
-        end: "bottom top",
-        scrub: 1.5,
-        onUpdate: (self) => {
-          const p = self.progress;
-          gsap.set(bg, {
-            scale: 1 + p * 0.05,
-            y: p * -25,
-          });
-        },
-      });
-    }, section);
-
-    return () => ctx.revert();
-  }, [prefersReducedMotion]);
-
-  // ── Framer Motion scroll-driven UI fade ──
+  // ── Framer Motion scroll-driven parallax + UI fade ──
   const { scrollYProgress } = useScroll({
     target: sectionRef,
     offset: ["start start", "end start"],
   });
 
+  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.05]);
+  const bgY = useTransform(scrollYProgress, [0, 1], [0, -25]);
   const uiOpacity = useTransform(scrollYProgress, [0, 0.6, 1], [1, 0.3, 0]);
   const uiY = useTransform(scrollYProgress, [0, 1], [0, -60]);
   const scrollIndicatorOpacity = useTransform(
@@ -67,22 +35,22 @@ export function HeroSection({ className }: HeroSectionProps) {
     hidden: {},
     visible: {
       transition: {
-        staggerChildren: prefersReducedMotion ? 0 : 0.18,
-        delayChildren: prefersReducedMotion ? 0 : 0.4,
+        staggerChildren: 0.18,
+        delayChildren: 0.4,
       },
     },
   };
 
   const fadeUp = {
     hidden: {
-      opacity: prefersReducedMotion ? 1 : 0,
-      y: prefersReducedMotion ? 0 : 35,
+      opacity: 0,
+      y: 35,
     },
     visible: {
       opacity: 1,
       y: 0,
       transition: {
-        duration: prefersReducedMotion ? 0 : 0.9,
+        duration: 0.9,
         ease: [0.25, 0.1, 0.25, 1] as const,
       },
     },
@@ -99,13 +67,20 @@ export function HeroSection({ className }: HeroSectionProps) {
         <div className="absolute inset-0 z-[1] bg-dark-blue/10" />
 
         {/* Parallax image wrapper (oversized to hide edges when scaled) */}
-        <div
+        <motion.div
           ref={bgRef}
           className="absolute z-0 will-change-transform"
-          style={{ top: "-5%", left: "-5%", width: "110%", height: "110%" }}
+          style={{
+            scale: bgScale,
+            y: bgY,
+            top: "-5%",
+            left: "-5%",
+            width: "110%",
+            height: "110%",
+          }}
         >
           <Image
-            src="/images/hero/hero-bg.jpg"
+            src="/images/hero/hero-bg.webp"
             alt="OM&apos;KUMOH Consulting Engineers — modern engineering headquarters building"
             fill
             priority
@@ -114,7 +89,7 @@ export function HeroSection({ className }: HeroSectionProps) {
             className="object-cover"
             style={{ objectPosition: "center 30%" }}
           />
-        </div>
+        </motion.div>
 
         {/* ── Gradient Overlays ── */}
         {/* Left-to-right: dark → transparent for text readability */}
@@ -143,7 +118,7 @@ export function HeroSection({ className }: HeroSectionProps) {
             variants={fadeUp}
             className="mb-5 block text-[11px] font-semibold uppercase tracking-[0.3em] text-white/70"
           >
-            Multidisciplinary Engineering Consultancy
+            Namibia&apos;s Engineering Partner Since 2010
           </motion.span>
 
           {/* Main headline */}
@@ -163,8 +138,8 @@ export function HeroSection({ className }: HeroSectionProps) {
             variants={fadeUp}
             className="mt-6 max-w-lg text-sm leading-relaxed tracking-wide text-white/70 md:text-base"
           >
-            A multidisciplinary engineering firm delivering iconic infrastructure
-            across Namibia — from concept to completion.
+            Structural, civil, mechanical, and electrical engineering — delivering
+            Namibia&apos;s most critical infrastructure since 2010.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -176,12 +151,12 @@ export function HeroSection({ className }: HeroSectionProps) {
               <span className="relative z-10">Explore Portfolio</span>
               <span className="absolute inset-0 -translate-x-full rounded-full bg-white/10 transition-transform duration-500 group-hover:translate-x-0" />
             </a>
-            <a
-              href="/contact"
-              className="rounded-full border border-white/15 px-8 py-3 text-sm font-medium text-white/70 backdrop-blur-sm transition-all hover:border-white/30 hover:text-white"
+            <Link
+              href="/contact#contact"
+              className="inline-flex items-center gap-2 rounded-full bg-copper px-8 py-3.5 text-sm font-medium text-white shadow-lg shadow-copper/20 transition-all hover:bg-copper-dark hover:shadow-xl hover:shadow-copper/30 hover:-translate-y-0.5"
             >
-              Get in Touch
-            </a>
+              Discuss Your Project
+            </Link>
           </motion.div>
         </motion.div>
       </motion.div>

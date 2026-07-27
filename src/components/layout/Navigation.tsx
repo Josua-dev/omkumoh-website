@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Sun, Moon } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { mainNavigation } from "@/data/navigation";
 
@@ -17,6 +17,24 @@ export function Navigation() {
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
   const mobilePanelRef = useRef<HTMLDivElement>(null);
   const pathname = usePathname();
+
+  // ── Dark mode state ──
+  const [darkMode, setDarkMode] = useState(false);
+
+  useEffect(() => {
+    const stored = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = stored === "dark" || (!stored && prefersDark);
+    setDarkMode(isDark);
+    document.documentElement.setAttribute("data-theme", isDark ? "dark" : "light");
+  }, []);
+
+  const toggleDarkMode = () => {
+    const next = !darkMode;
+    setDarkMode(next);
+    document.documentElement.setAttribute("data-theme", next ? "dark" : "light");
+    localStorage.setItem("theme", next ? "dark" : "light");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -143,6 +161,19 @@ export function Navigation() {
               </Link>
             );
           })}
+          {/* Dark mode toggle */}
+          <button
+            onClick={toggleDarkMode}
+            aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+            className={cn(
+              "ml-2 flex h-9 w-9 items-center justify-center rounded-full transition-colors",
+              isScrolled
+                ? "text-gray-500 hover:bg-gray-100 hover:text-dark-blue"
+                : "text-white/60 hover:bg-white/10 hover:text-white"
+            )}
+          >
+            {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+          </button>
           <div className="ml-4">
             <Link
               href="/contact"
@@ -224,6 +255,18 @@ export function Navigation() {
                   Get in Touch
                 </Link>
               </motion.div>
+              {/* Mobile dark mode toggle */}
+              <motion.button
+                onClick={toggleDarkMode}
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.55, duration: 0.5 }}
+                aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
+                className="mt-6 flex items-center gap-2 text-sm text-white/60 transition-colors hover:text-white"
+              >
+                {darkMode ? <Sun size={18} /> : <Moon size={18} />}
+                <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
+              </motion.button>
             </div>
           </motion.div>
         )}

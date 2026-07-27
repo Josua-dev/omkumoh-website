@@ -52,9 +52,9 @@ export function ContactSection() {
     <Section className="bg-gray-50" id="contact">
       <Container>
         <SectionHeader
-          subtitle="Get in Touch"
-          title="Start Your Next Project with OM'KUMOH"
-          description="Ready to discuss your engineering needs? Our team is ready to help turn your vision into reality."
+          subtitle="Let's Build Something"
+          title="Start Your Next Project"
+          description="Tell us about your project and we'll show you how 15 years of Namibian engineering expertise can bring it to life — on time, on budget, and built to last."
         />
 
         <motion.div
@@ -189,7 +189,7 @@ export function ContactSection() {
               </p>
               <a
                 href={`mailto:careers@omkumoh.com`}
-                className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-steel-blue hover:text-soft-cyan"
+                className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-copper hover:text-copper-dark"
               >
                 careers@omkumoh.com →
               </a>

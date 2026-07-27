@@ -31,9 +31,9 @@ export function TestimonialsSection() {
     <Section className="bg-gray-50">
       <Container>
         <SectionHeader
-          subtitle="Client Feedback"
-          title="Trusted by Namibia's Leading Institutions"
-          description="Hear from the clients and partners who have trusted us with their most important infrastructure projects."
+          subtitle="From the People We Serve"
+          title="What Our Clients Say"
+          description="Government ministries, regional councils, private developers, and national utilities — we let our work and their words speak."
         />
 
         <div
@@ -50,12 +50,12 @@ export function TestimonialsSection() {
               transition={{ duration: 0.4 }}
             >
               <Card variant="default" className="relative p-12 md:p-16">
-                <Quote size={40} className="absolute top-8 left-8 text-steel-blue/10" />
+                <Quote size={40} className="absolute top-8 left-8 text-copper/15" />
                 <blockquote className="relative text-xl leading-relaxed text-charcoal md:text-2xl">
                   &ldquo;{t.content}&rdquo;
                 </blockquote>
                 <div className="mt-8 flex items-center gap-4 border-t border-gray-100 pt-6">
-                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-steel-blue/10 text-sm font-bold text-steel-blue">
+                  <div className="flex h-12 w-12 items-center justify-center rounded-full bg-copper/10 text-sm font-bold text-copper">
                     {t.name.split(" ").map(n => n[0]).join("")}
                   </div>
                   <div>
@@ -72,7 +72,7 @@ export function TestimonialsSection() {
           <div className="mt-8 flex items-center justify-center gap-4">
             <button
               onClick={prev}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-slate transition-colors hover:border-steel-blue hover:text-steel-blue"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-slate transition-colors hover:border-copper hover:text-copper"
             >
               <ChevronLeft size={18} />
             </button>
@@ -89,7 +89,7 @@ export function TestimonialsSection() {
             </div>
             <button
               onClick={next}
-              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-slate transition-colors hover:border-steel-blue hover:text-steel-blue"
+              className="flex h-10 w-10 items-center justify-center rounded-full border border-gray-200 text-slate transition-colors hover:border-copper hover:text-copper"
             >
               <ChevronRight size={18} />
             </button>

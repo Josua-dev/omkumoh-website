@@ -10,9 +10,17 @@ interface CardProps {
   variant?: "default" | "glass" | "glass-dark" | "bordered";
   hover?: boolean;
   tilt?: boolean;
+  radius?: "sm" | "md" | "lg" | "xl" | "2xl";
 }
 
-export function Card({ children, className, variant = "default", hover = true, tilt = false }: CardProps) {
+export function Card({
+  children,
+  className,
+  variant = "default",
+  hover = true,
+  tilt = false,
+  radius = "2xl",
+}: CardProps) {
   const ref = useRef<HTMLDivElement>(null);
   const [isTouchDevice, setIsTouchDevice] = useState(false);
   const x = useMotionValue(0);
@@ -45,22 +53,45 @@ export function Card({ children, className, variant = "default", hover = true, t
     y.set(0);
   };
 
+  const radiusClass = {
+    sm: "rounded-lg",
+    md: "rounded-xl",
+    lg: "rounded-2xl",
+    xl: "rounded-3xl",
+    "2xl": "rounded-2xl",
+  };
+
   return (
     <motion.div
       ref={ref}
       onMouseMove={tilt && !isTouchDevice ? handleMouse : undefined}
       onMouseLeave={tilt && !isTouchDevice ? resetTilt : undefined}
-      whileHover={hover ? {
-        y: -6,
-        boxShadow: "0 20px 40px -12px rgba(0,0,0,0.1), 0 0 0 1px rgba(59,111,160,0.15)",
-        transition: { duration: 0.3, ease: "easeOut" },
-      } : undefined}
-      style={tilt ? { rotateX, rotateY, transformStyle: "preserve-3d", willChange: "transform" } : undefined}
+      whileHover={
+        hover
+          ? {
+              y: -4,
+              boxShadow:
+                "0 12px 32px -8px rgba(0,0,0,0.08), 0 0 0 1px rgba(59,111,160,0.12)",
+              transition: { duration: 0.25, ease: "easeOut" },
+            }
+          : undefined
+      }
+      style={
+        tilt
+          ? {
+              rotateX,
+              rotateY,
+              transformStyle: "preserve-3d",
+              willChange: "transform",
+            }
+          : undefined
+      }
       className={cn(
-        "rounded-2xl transition-shadow duration-300 focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2",
+        radiusClass[radius],
+        "transition-shadow duration-300 focus-visible:outline-2 focus-visible:outline-ring focus-visible:outline-offset-2",
         variant === "default" && "bg-card p-6 shadow-sm border border-border/50",
-        variant === "glass" && "glass rounded-2xl p-6",
-        variant === "glass-dark" && "glass-dark rounded-2xl p-6",
+        variant === "glass" && "glass p-6",
+        variant === "glass-dark" && "glass-dark p-6",
         variant === "bordered" && "border border-border/50 p-6",
         className
       )}

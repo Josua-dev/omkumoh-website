@@ -12,9 +12,9 @@ export function LeadershipSection() {
     <Section className="bg-white" id="leadership">
       <Container>
         <SectionHeader
-          subtitle="Our Team"
-          title="Meet Our Leadership"
-          description="A dedicated team of engineering professionals committed to delivering excellence across every discipline."
+          subtitle="The People Behind the Plans"
+          title="Meet the Team That Makes It Happen"
+          description="Registered professionals. Decades of combined experience. A commitment to Namibia's infrastructure that goes beyond the job description."
         />
 
         <motion.div
@@ -53,12 +53,12 @@ export function LeadershipSection() {
                 </div>
                 <div className="mt-4 flex justify-center gap-2">
                   {member.linkedin && (
-                    <a href={member.linkedin} className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-slate transition-colors hover:bg-steel-blue hover:text-white">
+                    <a href={member.linkedin} className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-slate transition-all hover:bg-copper hover:text-white hover:shadow-md hover:shadow-copper/20">
                       <ExternalLink size={14} />
                     </a>
                   )}
                   {member.email && (
-                    <a href={`mailto:${member.email}`} className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-slate transition-colors hover:bg-steel-blue hover:text-white">
+                    <a href={`mailto:${member.email}`} className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 text-slate transition-all hover:bg-copper hover:text-white hover:shadow-md hover:shadow-copper/20">
                       <Mail size={14} />
                     </a>
                   )}

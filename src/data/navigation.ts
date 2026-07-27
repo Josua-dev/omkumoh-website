@@ -31,10 +31,18 @@ export const mainNavigation: NavItem[] = [
   {
     label: "Projects",
     href: "/projects",
+    children: [
+      { label: "All Projects", href: "/projects", description: "Our complete portfolio" },
+      { label: "Case Studies", href: "/case-studies", description: "Deep-dive technical narratives" },
+    ],
   },
   {
     label: "Sustainability",
     href: "/sustainability",
+  },
+  {
+    label: "Insights",
+    href: "/blog",
   },
   {
     label: "Contact",

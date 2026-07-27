@@ -21,9 +21,9 @@ export function EngineeringExcellence() {
     <Section className="bg-white architectural-grid">
       <Container>
         <SectionHeader
-          subtitle="Our Philosophy"
-          title="Engineering Excellence, Delivered with Integrity"
-          description="Six core values guide every project we undertake — from the initial feasibility study through to construction completion."
+          subtitle="Built on Principle"
+          title="More Than Engineering — a Philosophy"
+          description="Six core values guide every project: from the first feasibility study to the final handover. No shortcuts. No compromises."
         />
 
         <motion.div
@@ -35,7 +35,7 @@ export function EngineeringExcellence() {
         >
           {values.map((value) => (
             <motion.div key={value.title} variants={fadeInUp}>
-              <Card tilt variant="bordered" className="group h-full p-8">
+              <Card tilt variant="bordered" className="group h-full p-8 border-copper/0 hover:border-copper/20 transition-colors">
                 <div className="mb-5 flex h-14 w-14 items-center justify-center rounded-2xl bg-steel-blue/5 text-steel-blue transition-colors group-hover:bg-steel-blue group-hover:text-white">
                   {iconMap[value.icon] || <Award size={28} />}
                 </div>

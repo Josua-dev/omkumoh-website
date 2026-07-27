@@ -7,10 +7,9 @@ import { FeaturedProjects } from "@/components/sections/FeaturedProjects";
 import { PortfolioGallery } from "@/components/sections/PortfolioGallery";
 import { Statistics } from "@/components/sections/Statistics";
 import { TestimonialsSection } from "@/components/sections/TestimonialsSection";
-import { TimelineSection } from "@/components/sections/TimelineSection";
-import { ProcessSection } from "@/components/sections/ProcessSection";
 import { SustainabilitySection } from "@/components/sections/SustainabilitySection";
 import { LeadershipSection } from "@/components/sections/LeadershipSection";
+import { TimelineSection } from "@/components/sections/TimelineSection";
 import { ClientLogosSection } from "@/components/sections/ClientLogosSection";
 import { ContactSection } from "@/components/sections/ContactSection";
 
@@ -33,7 +32,6 @@ export default async function HomePage() {
         <FeaturedProjects />
         <PortfolioGallery />
         <Statistics />
-        <ProcessSection />
         <SustainabilitySection />
         <LeadershipSection />
         <TimelineSection />

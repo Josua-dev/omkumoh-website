@@ -22,9 +22,9 @@ export function FeaturedProjects() {
     <Section id="projects" className="bg-white">
       <Container>
         <SectionHeader
-          subtitle="Our Portfolio"
-          title="Featured Projects"
-          description="A selection of the 120+ infrastructure projects we've delivered across Namibia since 2010."
+          subtitle="Proof in Concrete"
+          title="Projects That Speak for Themselves"
+          description="Over 120 infrastructure projects delivered across all 14 regions — from government headquarters and hospitals to roads, water systems, and solar installations."
         />
 
         <div className="mt-12 flex flex-wrap justify-center gap-2">
@@ -67,7 +67,7 @@ export function FeaturedProjects() {
                       />
                       <div className="absolute inset-0 flex items-center justify-center p-6">
                         <div className="text-center">
-                          <Badge variant={project.status === "completed" ? "default" : "subtle"} className={project.status === "in-progress" ? "text-copper border-copper/30 bg-copper/5" : ""}>
+                          <Badge variant={project.status === "completed" ? "default" : "copper"}>
                             {project.status === "completed" ? "Completed" : "In Progress"}
                           </Badge>
                           <Badge className="mt-2" variant="outline">
@@ -89,7 +89,7 @@ export function FeaturedProjects() {
                         {project.title}
                       </h3>
                       <p className="mt-1 text-sm text-slate">{project.client}</p>
-                      <div className="mt-3 flex items-center gap-1 text-sm font-medium text-steel-blue">
+                      <div className="mt-3 flex items-center gap-1 text-sm font-medium text-steel-blue group-hover:text-copper transition-colors">
                         View Project <ArrowUpRight size={14} />
                       </div>
                     </div>
@@ -101,13 +101,21 @@ export function FeaturedProjects() {
         </motion.div>
 
         {filtered.length > 6 && (
-          <div className="mt-12 text-center">
+          <div className="mt-12 text-center space-y-4">
             <Link
               href="/projects"
               className="inline-flex items-center gap-2 rounded-full border border-dark-blue/20 px-8 py-3 text-sm font-medium text-dark-blue transition-all hover:bg-dark-blue hover:text-white"
             >
               View All Projects <ArrowUpRight size={16} />
             </Link>
+            <div>
+              <Link
+                href="/case-studies"
+                className="inline-flex items-center gap-2 text-sm font-medium text-copper hover:text-copper-dark transition-colors"
+              >
+                Read In-Depth Case Studies <ArrowUpRight size={14} />
+              </Link>
+            </div>
           </div>
         )}
       </Container>
