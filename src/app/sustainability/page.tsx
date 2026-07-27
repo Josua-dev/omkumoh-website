@@ -48,7 +48,7 @@ export default function SustainabilityPage() {
               <Card key={init.title} variant="bordered" className="p-8">
                 <h3 className="text-xl font-semibold text-charcoal mb-3">{init.title}</h3>
                 <p className="text-slate leading-relaxed">{init.description}</p>
-                <span className="mt-4 inline-block rounded-full bg-green-50 px-3 py-1 text-xs font-medium uppercase tracking-wider text-green-600">
+                <span className="mt-4 inline-block rounded-full bg-copper/10 px-3 py-1 text-xs font-medium uppercase tracking-wider text-copper">
                   {init.status}
                 </span>
               </Card>

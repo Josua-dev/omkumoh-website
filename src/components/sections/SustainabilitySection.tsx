@@ -39,7 +39,7 @@ export function SustainabilitySection() {
           {sustainabilityData.approach.map((item) => (
             <motion.div key={item.title} variants={fadeInUp}>
               <Card className="h-full p-6">
-                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-green-50 text-green-600">
+                <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-steel-blue/5 text-steel-blue">
                   {iconMap[item.icon] || <Leaf size={20} />}
                 </div>
                 <h3 className="mb-2 text-lg font-semibold text-charcoal">{item.title}</h3>
@@ -53,7 +53,7 @@ export function SustainabilitySection() {
         <div className="mt-20 grid gap-8 md:grid-cols-4">
           {sustainabilityData.metrics.map((metric) => (
             <div key={metric.label} className="text-center">
-              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-green-50 text-green-600">
+              <div className="mx-auto mb-3 flex h-12 w-12 items-center justify-center rounded-full bg-soft-cyan/10 text-soft-cyan">
                 {iconMap[metric.icon] || <TrendingUp size={20} />}
               </div>
               <div className="text-4xl font-bold tracking-tight text-charcoal">
