@@ -8,7 +8,8 @@ import { Container, Section } from "@/components/ui/Container";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { caseStudies } from "@/data/case-studies";
-import { MapPin, Calendar, CheckCircle, ArrowLeft, Quote, Award, BarChart3 } from "lucide-react";
+import { MapPin, Calendar, CheckCircle, ArrowLeft, Quote, Award, BarChart3, ArrowUpRight } from "lucide-react";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 
 export default function CaseStudyDetailPage() {
   const params = useParams();
@@ -35,9 +36,7 @@ export default function CaseStudyDetailPage() {
       <section className="relative flex min-h-[50vh] items-end bg-dark-blue">
         <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "60px 60px"}} />
         <Container className="relative z-10 pb-16 pt-32">
-          <Link href="/case-studies" className="mb-6 inline-flex items-center gap-2 text-sm text-steel-blue hover:text-soft-cyan">
-            <ArrowLeft size={14} /> All Case Studies
-          </Link>
+          <Breadcrumb items={[{ label: "Case Studies", href: "/case-studies" }, { label: study.title }]} className="mb-6" />
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="flex flex-wrap gap-2 mb-4">
             <Badge variant="copper">{study.category === "renewable-energy" ? "Renewable Energy" : study.category === "specialized" ? "Specialized" : study.category === "building" ? "Building" : study.category}</Badge>
           </motion.div>

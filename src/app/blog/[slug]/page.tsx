@@ -4,9 +4,11 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Container, Section } from "@/components/ui/Container";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Badge } from "@/components/ui/Badge";
+import { Card } from "@/components/ui/Card";
 import { blogPosts } from "@/data/blog";
-import { ArrowLeft, Calendar, Clock, User } from "lucide-react";
+import { ArrowLeft, Calendar, Clock, User, ArrowUpRight } from "lucide-react";
 
 export default function BlogPostPage() {
   const params = useParams();
@@ -27,7 +29,12 @@ export default function BlogPostPage() {
     );
   }
 
-  // Render content as paragraphs (split by double newlines)
+  // Related posts — same category, exclude current
+  const relatedPosts = blogPosts
+    .filter((p) => p.slug !== slug && p.category === post.category)
+    .slice(0, 3);
+
+  // Render content
   const paragraphs = post.content.split("\n\n").map((block, i) => {
     if (block.startsWith("## ")) {
       return (
@@ -70,15 +77,18 @@ export default function BlogPostPage() {
     );
   });
 
+  // Share URLs
+  const shareUrl = typeof window !== "undefined" ? window.location.href : `https://www.omkumoh.com.na/blog/${slug}`;
+  const shareText = encodeURIComponent(post.title);
+  const shareLink = encodeURIComponent(shareUrl);
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       {/* Header */}
       <section className="relative bg-dark-blue py-32">
         <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "60px 60px"}} />
         <Container className="relative z-10">
-          <Link href="/blog" className="mb-6 inline-flex items-center gap-2 text-sm text-steel-blue hover:text-soft-cyan">
-            <ArrowLeft size={14} /> All Articles
-          </Link>
+          <Breadcrumb items={[{ label: "Insights", href: "/blog" }, { label: post.title }]} className="mb-6" />
           <div className="flex flex-wrap gap-2 mb-4">
             <Badge variant={post.category === "engineering" ? "default" : post.category === "sustainability" ? "accent" : "outline"}>
               {post.category.charAt(0).toUpperCase() + post.category.slice(1)}
@@ -103,12 +113,46 @@ export default function BlogPostPage() {
               {paragraphs}
             </article>
 
-            {/* Tags */}
+            {/* Tags + Share */}
             <div className="mt-12 pt-8 border-t border-gray-100">
-              <div className="flex flex-wrap gap-2">
-                {post.tags.map((tag) => (
-                  <Badge key={tag} variant="subtle">{tag}</Badge>
-                ))}
+              <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-wrap gap-2">
+                  {post.tags.map((tag) => (
+                    <Badge key={tag} variant="subtle">{tag}</Badge>
+                  ))}
+                </div>
+
+                {/* Social share */}
+                <div className="flex items-center gap-3">
+                  <span className="text-xs font-medium uppercase tracking-wider text-gray-400">Share</span>
+                  <a
+                    href={`https://www.linkedin.com/sharing/share-offsite/?url=${shareLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on LinkedIn"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-all hover:bg-steel-blue hover:text-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>
+                  </a>
+                  <a
+                    href={`https://twitter.com/intent/tweet?text=${shareText}&url=${shareLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on X (Twitter)"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-all hover:bg-charcoal hover:text-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 4l11.733 16h4.267l-11.733 -16z"/><path d="M4 20l6.768 -6.768M17.232 4.768l-6.768 6.768"/></svg>
+                  </a>
+                  <a
+                    href={`https://www.facebook.com/sharer/sharer.php?u=${shareLink}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label="Share on Facebook"
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-gray-100 text-gray-500 transition-all hover:bg-[#1877F2] hover:text-white"
+                  >
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  </a>
+                </div>
               </div>
             </div>
 
@@ -132,6 +176,42 @@ export default function BlogPostPage() {
           </div>
         </Container>
       </Section>
+
+      {/* Related Posts */}
+      {relatedPosts.length > 0 && (
+        <Section className="bg-gray-50 border-t border-gray-100">
+          <Container>
+            <h2 className="text-2xl font-bold text-charcoal mb-8">Related Articles</h2>
+            <div className="grid gap-6 md:grid-cols-3">
+              {relatedPosts.map((rp) => (
+                <Link key={rp.slug} href={`/blog/${rp.slug}`}>
+                  <Card className="group p-6 h-full hover:shadow-lg transition-all">
+                    <div className="mb-3">
+                      <Badge variant={rp.category === "engineering" ? "default" : rp.category === "sustainability" ? "accent" : "outline"} className="text-[10px]">
+                        {rp.category.charAt(0).toUpperCase() + rp.category.slice(1)}
+                      </Badge>
+                    </div>
+                    <h3 className="text-base font-semibold text-charcoal group-hover:text-steel-blue transition-colors line-clamp-2">
+                      {rp.title}
+                    </h3>
+                    <p className="mt-2 text-sm text-slate line-clamp-2">{rp.excerpt}</p>
+                    <div className="mt-4 flex items-center gap-2 text-xs text-gray-400">
+                      <Calendar size={12} />
+                      <span>{new Date(rp.date).toLocaleDateString("en-GB", { month: "short", day: "numeric", year: "numeric" })}</span>
+                      <span className="text-gray-300">·</span>
+                      <Clock size={12} />
+                      <span>{rp.readTime}</span>
+                    </div>
+                    <div className="mt-3 flex items-center gap-1 text-xs font-medium text-steel-blue opacity-0 group-hover:opacity-100 transition-opacity">
+                      Read Article <ArrowUpRight size={12} />
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </Container>
+        </Section>
+      )}
     </motion.div>
   );
 }

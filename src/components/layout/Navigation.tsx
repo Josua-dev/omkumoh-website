@@ -4,7 +4,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X, Sun, Moon, ChevronDown } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { mainNavigation } from "@/data/navigation";
 
@@ -12,6 +12,7 @@ export function Navigation() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
   const [navHidden, setNavHidden] = useState(false);
+  const [openSubMenu, setOpenSubMenu] = useState<string | null>(null);
   const prevScrollRef = useRef(0);
   const tickingRef = useRef(false);
   const toggleBtnRef = useRef<HTMLButtonElement>(null);
@@ -54,10 +55,13 @@ export function Navigation() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Close mobile menu on route change
   useEffect(() => {
     setIsMobileOpen(false);
+    setOpenSubMenu(null);
   }, [pathname]);
 
+  // Lock body scroll when mobile menu open
   useEffect(() => {
     if (isMobileOpen) {
       const prev = document.body.style.overflow;
@@ -66,6 +70,7 @@ export function Navigation() {
     }
   }, [isMobileOpen]);
 
+  // Focus trap for mobile menu
   useEffect(() => {
     if (!isMobileOpen) return;
     const toggleBtn = toggleBtnRef.current;
@@ -102,6 +107,13 @@ export function Navigation() {
     };
   }, [isMobileOpen]);
 
+  // Determine active state — top-level link OR any child matches
+  const isItemActive = (item: typeof mainNavigation[number]) => {
+    if (pathname === item.href) return true;
+    if (item.children) return item.children.some((child) => pathname === child.href || pathname.startsWith(child.href + "/"));
+    return false;
+  };
+
   return (
     <motion.header
       initial={{ y: 0 }}
@@ -136,22 +148,22 @@ export function Navigation() {
         {/* Desktop navigation */}
         <div className="hidden items-center gap-1 lg:flex">
           {mainNavigation.map((item) => {
-            const isActive = pathname === item.href || pathname.startsWith(item.href + "/");
+            const active = isItemActive(item);
             return (
               <Link
                 key={item.href}
                 href={item.href}
-                aria-current={isActive ? "page" : undefined}
+                aria-current={active ? "page" : undefined}
                 className={cn(
                   "relative rounded-full px-4 py-2 text-sm font-medium transition-colors",
                   isScrolled
                     ? "text-gray-600 hover:text-dark-blue hover:bg-gray-100/50"
                     : "text-white/70 hover:text-white hover:bg-white/5",
-                  isActive && (isScrolled ? "text-dark-blue" : "text-white")
+                  active && (isScrolled ? "text-dark-blue" : "text-white")
                 )}
               >
                 {item.label}
-                {isActive && (
+                {active && (
                   <motion.span
                     layoutId="nav-indicator"
                     className="absolute -bottom-0.5 left-3 right-3 h-[2.5px] rounded-full bg-steel-blue"
@@ -210,7 +222,7 @@ export function Navigation() {
         </button>
       </nav>
 
-      {/* Mobile menu panel */}
+      {/* Mobile menu panel — now with sub-items */}
       <AnimatePresence>
         {isMobileOpen && (
           <motion.div
@@ -220,28 +232,91 @@ export function Navigation() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
             className="fixed inset-0 z-[5] flex flex-col bg-dark-blue lg:hidden"
-            aria-hidden="true"
           >
-            <div className="flex flex-col items-center justify-center gap-8 pt-32 pb-16">
-              {mainNavigation.map((item, i) => (
-                <motion.div
-                  key={item.href}
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -20 }}
-                  transition={{ delay: i * 0.07, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
-                >
-                  <Link
-                    href={item.href}
-                    className={cn(
-                      "text-3xl font-medium transition-colors hover:text-steel-blue",
-                      pathname === item.href ? "text-steel-blue" : "text-white/90"
-                    )}
+            <div className="flex flex-col items-center justify-center gap-6 pt-28 pb-16 overflow-y-auto">
+              {mainNavigation.map((item, i) => {
+                const hasChildren = item.children && item.children.length > 0;
+                const isOpen = openSubMenu === item.label;
+
+                return (
+                  <motion.div
+                    key={item.href}
+                    initial={{ opacity: 0, y: 30 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ delay: i * 0.06, duration: 0.5, ease: [0.25, 0.1, 0.25, 1] }}
+                    className="flex flex-col items-center"
                   >
-                    {item.label}
-                  </Link>
-                </motion.div>
-              ))}
+                    {/* Top-level item */}
+                    <div className="flex items-center gap-2">
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          "text-3xl font-medium transition-colors hover:text-steel-blue",
+                          isItemActive(item) ? "text-steel-blue" : "text-white/90"
+                        )}
+                      >
+                        {item.label}
+                      </Link>
+                      {hasChildren && (
+                        <button
+                          onClick={() => setOpenSubMenu(isOpen ? null : item.label)}
+                          aria-label={isOpen ? `Collapse ${item.label} sub-menu` : `Expand ${item.label} sub-menu`}
+                          aria-expanded={isOpen}
+                          className="flex h-8 w-8 items-center justify-center rounded-full text-white/60 transition-colors hover:text-white hover:bg-white/10"
+                        >
+                          <motion.div
+                            animate={{ rotate: isOpen ? 180 : 0 }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <ChevronDown size={18} />
+                          </motion.div>
+                        </button>
+                      )}
+                    </div>
+
+                    {/* Sub-items */}
+                    <AnimatePresence>
+                      {hasChildren && isOpen && (
+                        <motion.div
+                          initial={{ height: 0, opacity: 0 }}
+                          animate={{ height: "auto", opacity: 1 }}
+                          exit={{ height: 0, opacity: 0 }}
+                          transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+                          className="mt-4 flex flex-col items-center gap-3 overflow-hidden"
+                        >
+                          <div className="h-px w-12 bg-white/10" />
+                          {item.children!.map((child, j) => (
+                            <motion.div
+                              key={child.href}
+                              initial={{ opacity: 0, x: -10 }}
+                              animate={{ opacity: 1, x: 0 }}
+                              transition={{ delay: j * 0.03 }}
+                            >
+                              <Link
+                                href={child.href}
+                                className={cn(
+                                  "block text-lg transition-colors",
+                                  pathname === child.href
+                                    ? "text-steel-blue font-medium"
+                                    : "text-white/60 hover:text-white"
+                                )}
+                              >
+                                {child.label}
+                                {child.description && (
+                                  <span className="ml-2 text-xs text-white/30">— {child.description}</span>
+                                )}
+                              </Link>
+                            </motion.div>
+                          ))}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
+                  </motion.div>
+                );
+              })}
+
+              {/* CTA */}
               <motion.div
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -255,14 +330,15 @@ export function Navigation() {
                   Get in Touch
                 </Link>
               </motion.div>
-              {/* Mobile dark mode toggle */}
+
+              {/* Dark mode toggle */}
               <motion.button
                 onClick={toggleDarkMode}
                 initial={{ opacity: 0, y: 30 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.55, duration: 0.5 }}
                 aria-label={darkMode ? "Switch to light mode" : "Switch to dark mode"}
-                className="mt-6 flex items-center gap-2 text-sm text-white/60 transition-colors hover:text-white"
+                className="mt-4 flex items-center gap-2 text-sm text-white/60 transition-colors hover:text-white"
               >
                 {darkMode ? <Sun size={18} /> : <Moon size={18} />}
                 <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>

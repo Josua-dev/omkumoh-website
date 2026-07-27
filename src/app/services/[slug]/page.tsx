@@ -5,16 +5,26 @@ import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { Container, Section } from "@/components/ui/Container";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Card } from "@/components/ui/Card";
 import { Badge } from "@/components/ui/Badge";
 import { services } from "@/data/services";
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, ChevronLeft, ChevronRight } from "lucide-react";
+import { useState } from "react";
 import { siteConfig } from "@/config/site";
+
+// Gallery image mapping per service
+const galleryMap: Record<string, string[]> = {
+  "civil-engineering": ["/images/services/civil-1.webp", "/images/services/civil-2.webp", "/images/services/civil-3.webp"],
+  "electrical-engineering": ["/images/services/electrical-1.webp", "/images/services/electrical-2.webp", "/images/services/electrical-3.webp"],
+  "mechanical-engineering": ["/images/services/mech-1.webp", "/images/services/mech-2.webp", "/images/services/mech-3.webp"],
+};
 
 export default function ServiceDetailPage() {
   const params = useParams();
   const slug = params.slug as string;
   const service = services.find((s) => s.slug === slug);
+  const [galleryIdx, setGalleryIdx] = useState(0);
 
   if (!service) {
     return (
@@ -30,14 +40,14 @@ export default function ServiceDetailPage() {
     );
   }
 
+  const gallery = galleryMap[service.id] || [];
+
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
       <section className="relative flex min-h-[40vh] items-center bg-dark-blue">
         <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "60px 60px"}} />
         <Container className="relative z-10 pt-24">
-          <Link href="/services" className="mb-6 inline-flex items-center gap-2 text-sm text-steel-blue hover:text-soft-cyan">
-            ← All Services
-          </Link>
+          <Breadcrumb items={[{ label: "Services", href: "/services" }, { label: service.title }]} className="mb-6" />
           <motion.h1 initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-5xl font-bold text-white md:text-7xl">
             {service.title}
           </motion.h1>
@@ -63,6 +73,53 @@ export default function ServiceDetailPage() {
                   </div>
                 ))}
               </div>
+
+              {/* Gallery */}
+              {gallery.length > 0 && (
+                <div className="mt-16">
+                  <h2 className="text-2xl font-bold text-charcoal mb-6">Project Gallery</h2>
+                  <div className="relative overflow-hidden rounded-2xl bg-gray-50">
+                    <div className="relative aspect-[16/9] w-full">
+                      <Image
+                        src={gallery[galleryIdx]}
+                        alt={`${service.title} — project image ${galleryIdx + 1}`}
+                        fill
+                        className="object-cover transition-opacity duration-500"
+                      />
+                    </div>
+                    {gallery.length > 1 && (
+                      <div className="absolute inset-x-0 bottom-0 flex items-center justify-between bg-gradient-to-t from-black/40 to-transparent p-4">
+                        <button
+                          onClick={() => setGalleryIdx((g) => (g - 1 + gallery.length) % gallery.length)}
+                          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/40"
+                          aria-label="Previous image"
+                        >
+                          <ChevronLeft size={18} />
+                        </button>
+                        <div className="flex items-center gap-1.5">
+                          {gallery.map((_, i) => (
+                            <button
+                              key={i}
+                              onClick={() => setGalleryIdx(i)}
+                              className={`h-1.5 rounded-full transition-all ${
+                                i === galleryIdx ? "w-6 bg-white" : "w-1.5 bg-white/40"
+                              }`}
+                              aria-label={`Go to image ${i + 1}`}
+                            />
+                          ))}
+                        </div>
+                        <button
+                          onClick={() => setGalleryIdx((g) => (g + 1) % gallery.length)}
+                          className="flex h-9 w-9 items-center justify-center rounded-full bg-white/20 text-white backdrop-blur-sm transition-colors hover:bg-white/40"
+                          aria-label="Next image"
+                        >
+                          <ChevronRight size={18} />
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              )}
             </div>
 
             <div className="space-y-8">

@@ -30,6 +30,20 @@ const Footer = dynamic(
     })),
   { ssr: false }
 );
+const BackToTop = dynamic(
+  () =>
+    import("@/components/layout/BackToTop").then((m) => ({
+      default: m.BackToTop,
+    })),
+  { ssr: false }
+);
+const CookieConsent = dynamic(
+  () =>
+    import("@/components/layout/CookieConsent").then((m) => ({
+      default: m.CookieConsent,
+    })),
+  { ssr: false }
+);
 
 export default function ClientLayoutWrapper({
   children,
@@ -44,6 +58,8 @@ export default function ClientLayoutWrapper({
         {children}
       </main>
       <Footer />
+      <BackToTop />
+      <CookieConsent />
     </LenisProvider>
   );
 }

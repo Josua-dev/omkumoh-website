@@ -2,6 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Container, Section, SectionHeader } from "@/components/ui/Container";
+import { Breadcrumb } from "@/components/ui/Breadcrumb";
 import { Card } from "@/components/ui/Card";
 import { Reveal } from "@/components/animations/Reveal";
 import { LeadershipSection } from "@/components/sections/LeadershipSection";
@@ -41,6 +42,7 @@ export default function AboutPage() {
       <section className="relative flex min-h-[50vh] items-center bg-dark-blue">
         <div className="absolute inset-0 opacity-[0.03]" style={{backgroundImage: "linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px)", backgroundSize: "60px 60px"}} />
         <Container className="relative z-10 pt-24">
+          <Breadcrumb items={[{ label: "About" }]} className="mb-4" />
           <motion.span initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="mb-4 inline-block text-sm font-semibold uppercase tracking-[0.2em] text-steel-blue">
             About Us
           </motion.span>
