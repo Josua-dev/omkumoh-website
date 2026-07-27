@@ -10,6 +10,13 @@ import { Badge } from "@/components/ui/Badge";
 import { services, serviceCategories } from "@/data/services";
 import { ArrowUpRight, Building, Ruler, Droplets, Route, Sun, Cog, Zap, Clipboard, Compass, Briefcase, CheckCircle } from "lucide-react";
 
+// Gallery image mapping — mirrors the detail page
+const galleryMap: Record<string, string[]> = {
+  "civil-engineering": ["/images/services/civil-1.webp", "/images/services/civil-2.webp", "/images/services/civil-3.webp"],
+  "electrical-engineering": ["/images/services/electrical-1.webp", "/images/services/electrical-2.webp", "/images/services/electrical-3.webp"],
+  "mechanical-engineering": ["/images/services/mech-1.webp", "/images/services/mech-2.webp", "/images/services/mech-3.webp"],
+};
+
 const serviceIcons: Record<string, React.ReactNode> = {
   "civil-engineering": <Building size={32} />,
   "structural-engineering": <Ruler size={32} />,
@@ -118,7 +125,25 @@ export default function ServicesPage() {
                             </div>
                           ))}
                         </div>
-                        <div className="mt-6 flex flex-wrap gap-2">
+                        {galleryMap[service.id] && (
+                          <div className="mt-5 flex items-center gap-2.5">
+                            <span className="text-[11px] font-medium uppercase tracking-wider text-gray-400">Gallery</span>
+                            <div className="flex gap-1.5">
+                              {galleryMap[service.id]!.map((src, gi) => (
+                                <div key={gi} className="relative h-8 w-8 overflow-hidden rounded-md border border-gray-100">
+                                  <Image
+                                    src={src}
+                                    alt={`${service.title} preview ${gi + 1}`}
+                                    fill
+                                    className="object-cover"
+                                    sizes="32px"
+                                  />
+                                </div>
+                              ))}
+                            </div>
+                          </div>
+                        )}
+                        <div className="mt-5 flex flex-wrap gap-2">
                           {service.disciplines.map((d) => (
                             <Badge key={d}>{d}</Badge>
                           ))}

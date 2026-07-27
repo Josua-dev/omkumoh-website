@@ -1,6 +1,8 @@
 "use client";
 
 import dynamic from "next/dynamic";
+import { usePathname } from "next/navigation";
+import { AnimatePresence, motion } from "framer-motion";
 
 const LenisProvider = dynamic(
   () =>
@@ -50,13 +52,25 @@ export default function ClientLayoutWrapper({
 }: {
   children: React.ReactNode;
 }) {
+  const pathname = usePathname();
+
   return (
     <LenisProvider>
       <ScrollProgress />
       <Navigation />
-      <main id="main-content" className="flex-1">
-        {children}
-      </main>
+      <AnimatePresence mode="wait">
+        <motion.main
+          key={pathname}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -6 }}
+          transition={{ duration: 0.25, ease: "easeInOut" }}
+          id="main-content"
+          className="flex-1"
+        >
+          {children}
+        </motion.main>
+      </AnimatePresence>
       <Footer />
       <BackToTop />
       <CookieConsent />
